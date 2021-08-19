@@ -63,13 +63,13 @@ module.exports = {
   getAllMeta: async ({ product_id }, callback) => {
     product_id = parseInt(product_id);
 
-    const ratingsQuery = `select rating, count(rating) from reviews r where product_id = 25171 group by rating;`;
-    const recommendedQuery = `select recommend, count(recommend) from reviews r where product_id = 41359 group by recommend;`;
+    const ratingsQuery = `select rating, count(rating) from reviews r where product_id = ${product_id} group by rating;`;
+    const recommendedQuery = `select recommend, count(recommend) from reviews r where product_id = ${product_id} group by recommend;`;
     const characteristicsQuery = ` 	SELECT c.name, c.id, AVG(cr.value)::NUMERIC(10,2) as value
     FROM characteristics c
     JOIN characteristic_reviews cr
     ON c.id = cr.characteristic_id
-    WHERE product_id = 25171
+    WHERE product_id = ${product_id}
    GROUP BY name, c.id;`;
 
    try {
