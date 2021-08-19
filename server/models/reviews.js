@@ -115,8 +115,6 @@ module.exports = {
     const date = Date.now();
     const response = '';
 
-    console.log(product_id, rating, date, summary, body, recommend, name, email, response, photos, characteristics);
-
     const insertReviewsQuery = `INSERT INTO reviews (
       product_id,
       rating,
@@ -143,9 +141,7 @@ module.exports = {
         // insert into review table and get the new review_id
         const { rows } = await client.query(insertReviewsQuery);
         const { id: review_id } = rows[0];
-        console.log('review_id?', review_id);
-        console.log('characteristics', characteristics);
-        console.log('photos', photos);
+
         // insert each characteristic
         const insertCharacteristicQueries = [];
         for (var characteristic_id in characteristics) {
@@ -156,6 +152,20 @@ module.exports = {
         Promise.all(insertCharacteristicQueries)
           .then(() => console.log('successfully inserted characteristics'))
           .catch(() => console.error('insertion error at characteristics table'));
+
+        // if there are photos, insert photos
+        const insertPhotoQueries = [];
+        if (photos.length > 0) {
+          for (var photo of photos) {
+            insertPhotoQueries.push(
+              client.query(`INSERT INTO reviews_photos (review_id, url) VALUES (${review_id}, '${photo}');`)
+            );
+          }
+          Promise.all(insertPhotoQueries)
+          .then(() => console.log('successfully inserted photos'))
+          .catch(() => console.error('insertion error at photos table'));
+        }
+        callback(null, review_id);
       } catch(err) {
         callback(err);
       }

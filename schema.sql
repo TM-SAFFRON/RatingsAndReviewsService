@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   reported boolean default FALSE,
   reviewer_name varchar(50),
   reviewer_email varchar(50),
-  response text,
+  response text default '',
   helpfulness smallint default 0
 );
 
