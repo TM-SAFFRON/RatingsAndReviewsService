@@ -26,7 +26,7 @@ module.exports = {
           rating,
           summary,
           recommend,
-          row(response, '') AS response,
+          NULLIF(response, 'null') as response,
           body,
           TO_TIMESTAMP(date / 1000) AS date,
           reviewer_name,
@@ -112,6 +112,9 @@ module.exports = {
   postReview: async (bodyParameters, callback) => {
     const { product_id, rating, summary, body, recommend, name, email, photos, characteristics } = bodyParameters;
 
-    console.log(product_id, rating, summary, body, recommend, name, email, photos, characteristics);
+    const date = Date.now();
+    const response = '';
+
+    console.log(product_id, rating, date, summary, body, recommend, name, email, response, photos, characteristics);
   }
 };
