@@ -140,9 +140,22 @@ module.exports = {
       ) returning id;`;
 
       try {
+        // insert into review table and get the new review_id
         const { rows } = await client.query(insertReviewsQuery);
         const { id: review_id } = rows[0];
         console.log('review_id?', review_id);
+        console.log('characteristics', characteristics);
+        console.log('photos', photos);
+        // insert each characteristic
+        const insertCharacteristicQueries = [];
+        for (var characteristic_id in characteristics) {
+          insertCharacteristicQueries.push(
+            client.query(`INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES (${parseInt(characteristic_id)}, ${review_id}, ${characteristics[characteristic_id]});`)
+          );
+        }
+        Promise.all(insertCharacteristicQueries)
+          .then(() => console.log('successfully inserted characteristics'))
+          .catch(() => console.error('insertion error at characteristics table'));
       } catch(err) {
         callback(err);
       }
