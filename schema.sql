@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   reviewer_name varchar(50),
   reviewer_email varchar(50),
   response text,
-  helpfulness smallint
+  helpfulness smallint default 0
 );
 
 CREATE TABLE IF NOT EXISTS reviews_photos (
