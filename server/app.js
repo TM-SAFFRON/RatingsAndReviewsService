@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.get('/reviews', controllers.reviews.get);
 app.get('/reviews/meta', controllers.reviews.getMeta);
+app.post('/reviews', controllers.reviews.post);
 
 // how to serve client on another repo?
 // app.use(express.static(__dirname + '/../client'));

@@ -7,15 +7,15 @@ client
 
 module.exports = {
   getAll: async (queryParameters, callback) => {
-    const { product_id, count = 5, sort = "", page = 1 } = queryParameters;
+    const { product_id, count = 5, sort = "relevant", page = 1 } = queryParameters;
 
     let sortType = "";
-    if (sort === "newest" || sort === "") {
+    if (sort === "newest") {
       sortType = "TO_TIMESTAMP(date / 1000) DESC";
     } else if (sort === "helpful") {
       sortType = "helpfulness DESC";
-    } else if (sort === "relevant") {
-      sortType = "helpfulness DESC";
+    } else if (sort === "relevant" || sort === "") {
+      sortType = "TO_TIMESTAMP(date / 1000) DESC, helpfulness DESC";
     }
 
     const query =
@@ -108,4 +108,10 @@ module.exports = {
     callback(err);
   }
   },
+
+  postReview: async (bodyParameters, callback) => {
+    const { product_id, rating, summary, body, recommend, name, email, photos, characteristics } = bodyParameters;
+
+    console.log(product_id, rating, summary, body, recommend, name, email, photos, characteristics);
+  }
 };
