@@ -116,5 +116,35 @@ module.exports = {
     const response = '';
 
     console.log(product_id, rating, date, summary, body, recommend, name, email, response, photos, characteristics);
+
+    const insertReviewsQuery = `INSERT INTO reviews (
+      product_id,
+      rating,
+      date,
+      summary,
+      body,
+      recommend,
+      reviewer_name,
+      reviewer_email,
+      response)
+      VALUES (
+      ${parseInt(product_id)},
+      ${rating},
+      ${date},
+      '${summary}',
+      '${body}',
+      ${recommend},
+      '${name}',
+      '${email}',
+      '${response}'
+      ) returning id;`;
+
+      try {
+        const { rows } = await client.query(insertReviewsQuery);
+        const { id: review_id } = rows[0];
+        console.log('review_id?', review_id);
+      } catch(err) {
+        callback(err);
+      }
   }
 };
