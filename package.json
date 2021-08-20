@@ -23,5 +23,8 @@
     "nodemon": "^2.0.12",
     "pg": "^8.7.1",
     "postgresql": "0.0.1"
+  },
+  "devDependencies": {
+    "artillery": "^1.7.7"
   }
 }

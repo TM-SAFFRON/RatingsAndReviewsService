@@ -43,6 +43,7 @@ module.exports = {
         FROM reviews
         WHERE product_id = ${parseInt(product_id)}
         ORDER BY ${sortType}
+        OFFSET ${parseInt(count)*(page-1)}
         LIMIT ${parseInt(count)}
       ) reviews;`;
 
