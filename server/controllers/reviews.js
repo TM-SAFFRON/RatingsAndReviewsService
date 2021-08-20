@@ -2,9 +2,6 @@ const models = require("../models");
 
 module.exports = {
   get: (req, res) => {
-    // console.log('params', req.params);
-    // console.log('query', req.query);
-
     models.reviews.getAll(req.query, (err, data) => {
       if (err) {
         res.status(404).send(err);
@@ -30,6 +27,26 @@ module.exports = {
         res.status(400).send(err);
       } else {
         res.status(201).send();
+      }
+    })
+  },
+
+  putHelpful: (req, res) => {
+    models.reviews.markHelpful(req.params, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send();
+      }
+    })
+  },
+
+  putReport: (req, res) => {
+    models.reviews.report(req.params, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send();
       }
     })
   }

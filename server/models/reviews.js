@@ -169,5 +169,25 @@ module.exports = {
       } catch(err) {
         callback(err);
       }
+  },
+
+  markHelpful: async ({ review_id }, callback) => {
+    const helpfulQuery = `UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${review_id};`;
+    try {
+      await client.query(helpfulQuery);
+      callback(null);
+    } catch (err) {
+      callback(err);
+    }
+  },
+
+  report: async ({ review_id }, callback) => {
+    const reportQuery = `UPDATE reviews SET reported = true WHERE id = ${review_id};`;
+    try {
+      await client.query(reportQuery);
+      callback(null);
+    } catch(err) {
+      callback(err);
+    }
   }
 };
