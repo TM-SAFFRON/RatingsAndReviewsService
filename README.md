@@ -1,6 +1,6 @@
-# RatingsAndReviewsService
+## RatingsAndReviewsService
 
-## Get Reviews
+### Get Reviews
 * GET `/reviews`
 **Query Params:**
 * product_id (required integer)
@@ -9,13 +9,13 @@
 * page (optional integer)
 **Success Status Code: `200`**
 
-## Get Reviews Meta
+### Get Reviews Meta
 * GET `/reviews/meta`
 **Query Params:**
 * product_id (required integer)
 **Success Status Code: `200`**
 
-## Post a Review
+### Post a Review
 * POST `/reviews`
 **Body Param (JSON):**
 * product_id (required integer)
@@ -29,13 +29,13 @@
 * characteristics (required JSON object of characteristic_id key and characteristic rating value)
 **Success Status Code: `201`**
 
-## Mark a Review as Helpful
+### Mark a Review as Helpful
 * PUT `/reviews/:review_id/helpful`
 **Path Variables:**
 * review_id (required integer)
 **Success Status Code: `204`**
 
-## Report a Review
+### Report a Review
 * PUT `/reviews/:review_id/report`
 **Path Variables:**
 * review_id (required integer)
