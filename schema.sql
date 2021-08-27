@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS ratingsandreviews;
 
 CREATE DATABASE ratingsandreviews;
 
+\c ratingsandreviews;
 -- CREATE SCHEMA IF NOT EXISTS rrschema;
 
 CREATE TABLE IF NOT EXISTS reviews (
