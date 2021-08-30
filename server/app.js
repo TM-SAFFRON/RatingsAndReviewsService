@@ -6,7 +6,7 @@ module.exports.app = app;
 
 app.use(express.json());
 app.get('/', () => {
-  res.status(200)send('Welcome to Ratings and Reviews!');
+  res.status(200).send('Welcome to Ratings and Reviews!');
 })
 app.get('/reviews', controllers.reviews.get);
 app.get('/reviews/meta', controllers.reviews.getMeta);
