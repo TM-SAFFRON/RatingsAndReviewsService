@@ -2,7 +2,7 @@ const models = require("../models");
 
 module.exports = {
   get: (req, res) => {
-    res = res.bind(this);
+    // res = res.bind(this);
     models.reviews.getAll(req.query, (err, data) => {
       if (err) {
         res.status(404).send(err);

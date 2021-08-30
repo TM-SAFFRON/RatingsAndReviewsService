@@ -1,4 +1,4 @@
 const config = require('../../config.js');
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
-module.exports = new Client(config);
+module.exports = new Pool(config);

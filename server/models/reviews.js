@@ -1,6 +1,6 @@
-const client = require("../db/index.js");
+const pool = require("../db/index.js");
 
-client
+pool
   .connect()
   .then(() => console.log("Database connected..."))
   .catch(() => console.log("Cannot connect to database."));
@@ -48,7 +48,7 @@ module.exports = {
       ) reviews;`;
 
     try {
-      const { rows } = await client.query(query);
+      const { rows } = await pool.query(query);
       const { results } = rows[0];
       callback(null, {
         product: product_id,
@@ -75,21 +75,21 @@ module.exports = {
 
    try {
      // fetch and shape ratings
-    const ratingsData = await client.query(ratingsQuery);
+    const ratingsData = await pool.query(ratingsQuery);
     const ratings = ratingsData.rows;
     let restructuredRatings = {};
     for (var i = 0; i < ratings.length; i++) {
       restructuredRatings[ratings[i].rating] = ratings[i].count;
     }
     // fetch and shape recommended
-    const recommendedData = await client.query(recommendedQuery);
+    const recommendedData = await pool.query(recommendedQuery);
     const recommends = recommendedData.rows;
     let restructuredRecommends = {};
     for (var i = 0; i < recommends.length; i++) {
       restructuredRecommends[recommends[i].recommend] = recommends[i].count;
     }
     // fetch and shape characteristics
-    const characteristicsData = await client.query(characteristicsQuery);
+    const characteristicsData = await pool.query(characteristicsQuery);
     const characteristics = characteristicsData.rows;
     let restructuredCharacteristics = {};
     for (var i = 0; i < characteristics.length; i++) {
@@ -140,14 +140,14 @@ module.exports = {
 
       try {
         // insert into review table and get the new review_id
-        const { rows } = await client.query(insertReviewsQuery);
+        const { rows } = await pool.query(insertReviewsQuery);
         const { id: review_id } = rows[0];
 
         // insert each characteristic
         const insertCharacteristicQueries = [];
         for (var characteristic_id in characteristics) {
           insertCharacteristicQueries.push(
-            client.query(`INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES (${parseInt(characteristic_id)}, ${review_id}, ${characteristics[characteristic_id]});`)
+            pool.query(`INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES (${parseInt(characteristic_id)}, ${review_id}, ${characteristics[characteristic_id]});`)
           );
         }
         Promise.all(insertCharacteristicQueries)
@@ -159,7 +159,7 @@ module.exports = {
         if (photos.length > 0) {
           for (var photo of photos) {
             insertPhotoQueries.push(
-              client.query(`INSERT INTO reviews_photos (review_id, url) VALUES (${review_id}, '${photo}');`)
+              pool.query(`INSERT INTO reviews_photos (review_id, url) VALUES (${review_id}, '${photo}');`)
             );
           }
           Promise.all(insertPhotoQueries)
@@ -175,7 +175,7 @@ module.exports = {
   markHelpful: async ({ review_id }, callback) => {
     const helpfulQuery = `UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${review_id};`;
     try {
-      await client.query(helpfulQuery);
+      await pool.query(helpfulQuery);
       callback(null);
     } catch (err) {
       callback(err);
@@ -185,7 +185,7 @@ module.exports = {
   report: async ({ review_id }, callback) => {
     const reportQuery = `UPDATE reviews SET reported = true WHERE id = ${review_id};`;
     try {
-      await client.query(reportQuery);
+      await pool.query(reportQuery);
       callback(null);
     } catch(err) {
       callback(err);
