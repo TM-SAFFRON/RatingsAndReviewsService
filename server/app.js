@@ -5,7 +5,7 @@ const app = express();
 module.exports.app = app;
 
 app.use(express.json());
-app.get('/', () => {
+app.get('/', (req, res) => {
   res.status(200).send('Welcome to Ratings and Reviews!');
 })
 app.get('/reviews', controllers.reviews.get);
